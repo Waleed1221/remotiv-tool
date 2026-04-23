@@ -917,17 +917,18 @@ Format your response as JSON:
         });
 
         const data = await response.json();
+        if (data.error) throw new Error(data.error);
         const responseText = (data.content || []).find(item => item.type === 'text')?.text || '';
+        if (!responseText) throw new Error('Empty response from API');
         
-        // Extract JSON from response
-        const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-        if (!jsonMatch) {
-          throw new Error('Failed to parse response');
+        let result;
+        try {
+          const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+          result = jsonMatch ? JSON.parse(jsonMatch[0]) : { singlePost: responseText };
+        } catch(e) {
+          result = { singlePost: responseText };
         }
         
-        const result = JSON.parse(jsonMatch[0]);
-        
-        // Render generated content
         renderGeneratedContent(result, contentType, platform);
         showToast(`✅ ${platform} content generated successfully!`);
         
@@ -1235,12 +1236,17 @@ Use REAL, recent data from web search. Format as JSON:
         });
 
         const data = await response.json();
+        if (data.error) throw new Error(data.error);
         const textContent = (data.content || []).filter(item => item.type === 'text').map(item => item.text).join('\n');
+        if (!textContent) throw new Error('Empty response from API');
         
-        const jsonMatch = textContent.match(/\{[\s\S]*\}/);
-        if (!jsonMatch) throw new Error('Failed to parse response');
+        let insights;
+        try {
+          const jsonMatch = textContent.match(/\{[\s\S]*\}/);
+          insights = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
+        } catch(e) { insights = null; }
+        if (!insights) throw new Error('Could not parse insights data');
         
-        const insights = JSON.parse(jsonMatch[0]);
         state.currentInsights = insights;
         renderInsights(insights, 'competitor');
         showToast('✅ Competitor analysis complete!');
@@ -1344,12 +1350,17 @@ Use REAL, recent data from 2024-2025. CITE SOURCES. Format as JSON:
         });
 
         const data = await response.json();
+        if (data.error) throw new Error(data.error);
         const textContent = (data.content || []).filter(item => item.type === 'text').map(item => item.text).join('\n');
+        if (!textContent) throw new Error('Empty response from API');
         
-        const jsonMatch = textContent.match(/\{[\s\S]*\}/);
-        if (!jsonMatch) throw new Error('Failed to parse response');
+        let trends;
+        try {
+          const jsonMatch = textContent.match(/\{[\s\S]*\}/);
+          trends = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
+        } catch(e) { trends = null; }
+        if (!trends) throw new Error('Could not parse trends data');
         
-        const trends = JSON.parse(jsonMatch[0]);
         renderInsights(trends, 'trends');
         showToast('✅ Market trends loaded!');
         
@@ -1607,12 +1618,17 @@ Format as JSON:
         });
 
         const data = await response.json();
+        if (data.error) throw new Error(data.error);
         const textContent = (data.content || []).find(item => item.type === 'text')?.text || '';
+        if (!textContent) throw new Error('Empty response from API');
         
-        const jsonMatch = textContent.match(/\{[\s\S]*\}/);
-        if (!jsonMatch) throw new Error('Failed to parse response');
+        let result;
+        try {
+          const jsonMatch = textContent.match(/\{[\s\S]*\}/);
+          result = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
+        } catch(e) { result = null; }
+        if (!result || !result.calendar) throw new Error('Could not parse calendar data');
         
-        const result = JSON.parse(jsonMatch[0]);
         state.calendar = result.calendar;
         renderCalendar(result.calendar);
         showToast('✅ Calendar generated!');
