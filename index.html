@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remotiv Social Media Content Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --remotiv-green: #49D7A7;
+      --remotiv-dark: #111111;
+      --remotiv-bg: #f8f4f1;
+      --purple: #7E47FF;
+      --lavender: #9886FE;
+      --lime: #c9ff85;
+      --text-mid: #444;
+      --text-light: #777;
+      --border: rgba(0,0,0,0.1);
+      --card-bg: #ffffff;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--remotiv-bg);
+      color: var(--remotiv-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Grid background like Remotiv site */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      z-index: 1;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+      animation: slideDown 0.6s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      font-family: 'Manrope', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--remotiv-green);
+      margin-bottom: 8px;
+    }
+
+    .tagline {
+      font-size: 1.1rem;
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+
+    /* Main Layout */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .card-title {
+      font-family: 'Manrope', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--remotiv-dark);
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin-bottom: 6px;
+    }
+
+    .input-field, .select-field, .textarea-field {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .input-field:focus, .select-field:focus, .textarea-field:focus {
+      outline: none;
+      border-color: var(--remotiv-green);
+      box-shadow: 0 0 0 3px rgba(73, 215, 167, 0.1);
+    }
+
+    .textarea-field {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--remotiv-green);
+    }
+
+    .checkbox-item label {
+      font-size: 0.9rem;
+      cursor: pointer;
+      color: var(--text-mid);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--remotiv-green);
+      color: var(--remotiv-dark);
+    }
+
+    .btn-primary:hover {
+      background: #3bc495;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(73, 215, 167, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--purple);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #6a3ae0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(126, 71, 255, 0.3);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    /* Main Content Area */
+    .content-area {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .tab-buttons {
+      display: flex;
+      gap: 12px;
+      background: white;
+      padding: 8px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: transparent;
+      color: var(--text-mid);
+    }
+
+    .tab-btn.active {
+      background: var(--remotiv-green);
+      color: var(--remotiv-dark);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeInUp 0.4s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid var(--border);
+      border-top-color: var(--remotiv-green);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: var(--text-mid);
+      font-size: 1.1rem;
+    }
+
+    /* Content Display */
+    .generated-content {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .content-type-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--remotiv-green);
+      color: var(--remotiv-dark);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .content-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      padding: 8px 16px;
+      background: var(--remotiv-bg);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      color: var(--text-mid);
+    }
+
+    .icon-btn:hover {
+      background: var(--remotiv-green);
+      border-color: var(--remotiv-green);
+      color: var(--remotiv-dark);
+    }
+
+    .post-content {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--remotiv-dark);
+      white-space: pre-wrap;
+    }
+
+    .carousel-slides {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .carousel-slide {
+      background: linear-gradient(135deg, var(--remotiv-green) 0%, var(--purple) 100%);
+      border-radius: 16px;
+      padding: 24px;
+      color: white;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .slide-number {
+      font-size: 0.75rem;
+      font-weight: 700;
+      opacity: 0.8;
+      margin-bottom: 12px;
+    }
+
+    .slide-content {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    /* Insights Section */
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .insight-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--remotiv-green);
+    }
+
+    .insight-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: var(--remotiv-dark);
+    }
+
+    .insight-content {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    .insight-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .insight-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .insight-list li:last-child {
+      border-bottom: none;
+    }
+
+    /* Saved Content */
+    .saved-item {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--purple);
+    }
+
+    .saved-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .saved-date {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .delete-btn {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .delete-btn:hover {
+      background: #cc0000;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+
+    /* Calendar */
+    .calendar-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .calendar-day {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .day-header {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: var(--remotiv-green);
+    }
+
+    .day-posts {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .day-post-item {
+      padding: 12px;
+      background: var(--remotiv-bg);
+      border-radius: 10px;
+      border-left: 3px solid var(--purple);
+    }
+
+    .post-time {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+
+    .post-preview {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--remotiv-dark);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      z-index: 1000;
+      animation: slideInRight 0.3s ease;
+      display: none;
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(400px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .toast.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">Remotiv Social Content Generator</div>
+      <div class="tagline">AI-Powered Content for LinkedIn, X (Twitter) & Instagram</div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Input Settings -->
+        <div class="card">
+          <div class="card-title">Content Settings</div>
+          
+          <div class="input-group">
+            <label class="input-label">Topic / Theme</label>
+            <input type="text" class="input-field" id="topicInput" placeholder="e.g., Remote hiring trends, AI in recruitment">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Platform</label>
+            <select class="select-field" id="platformSelect">
+              <option value="linkedin">LinkedIn</option>
+              <option value="twitter">X (Twitter)</option>
+              <option value="instagram">Instagram</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Content Type</label>
+            <select class="select-field" id="contentType">
+              <option value="single">Single Post</option>
+              <option value="carousel">Carousel (6-10 slides)</option>
+              <option value="both">Both</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Tone</label>
+            <select class="select-field" id="toneSelect">
+              <option value="professional">Professional</option>
+              <option value="conversational">Conversational</option>
+              <option value="inspiring">Inspiring</option>
+              <option value="educational">Educational</option>
+              <option value="data-driven">Data-Driven</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Focus Areas</label>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="staffAug" checked>
+                <label for="staffAug">Staff Augmentation</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="recruitment" checked>
+                <label for="recruitment">Recruitment</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="dedicatedTeams" checked>
+                <label for="dedicatedTeams">Dedicated Teams</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="payroll" checked>
+                <label for="payroll">Payroll Services</label>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="generateBtn">
+            <span>✨</span> Generate Content
+          </button>
+        </div>
+
+        <!-- Competitor Analysis -->
+        <div class="card">
+          <div class="card-title">Competitor Insights</div>
+          <button class="btn btn-secondary" id="analyzeBtn">
+            <span>🔍</span> Analyze Competitors
+          </button>
+        </div>
+
+        <!-- Market Trends -->
+        <div class="card">
+          <div class="card-title">Market Trends</div>
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <input type="checkbox" id="usMarket" checked>
+              <label for="usMarket">United States</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="europeMarket" checked>
+              <label for="europeMarket">Europe</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="meMarket" checked>
+              <label for="meMarket">Middle East</label>
+            </div>
+          </div>
+          <button class="btn btn-secondary" id="trendsBtn" style="margin-top: 12px;">
+            <span>📊</span> Get Trends
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="content-area">
+        <!-- Tabs -->
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="generated">Generated Content</button>
+          <button class="tab-btn" data-tab="insights">Insights</button>
+          <button class="tab-btn" data-tab="saved">Saved Content</button>
+          <button class="tab-btn" data-tab="calendar">Content Calendar</button>
+        </div>
+
+        <!-- Tab Content: Generated -->
+        <div class="tab-content active" id="generatedTab">
+          <div class="empty-state">
+            <div class="empty-icon">📝</div>
+            <h3>No content generated yet</h3>
+            <p>Use the settings on the left to generate LinkedIn content</p>
+          </div>
+        </div>
+
+        <!-- Tab Content: Insights -->
+        <div class="tab-content" id="insightsTab">
+          <div class="empty-state">
+            <div class="empty-icon">💡</div>
+            <h3>No insights yet</h3>
+            <p>Click "Analyze Competitors" or "Get Trends" to see insights</p>
+          </div>
+        </div>
+
+        <!-- Tab Content: Saved -->
+        <div class="tab-content" id="savedTab">
+          <div class="empty-state">
+            <div class="empty-icon">💾</div>
+            <h3>No saved content</h3>
+            <p>Generate and save content to see it here</p>
+          </div>
+        </div>
+
+        <!-- Tab Content: Calendar -->
+        <div class="tab-content" id="calendarTab">
+          <button class="btn btn-primary" id="generateCalendarBtn" style="max-width: 300px; margin-bottom: 20px;">
+            <span>📅</span> Generate 3-Day Calendar
+          </button>
+          <div id="calendarContent">
+            <div class="empty-state">
+              <div class="empty-icon">📅</div>
+              <h3>No calendar generated</h3>
+              <p>Click the button above to auto-generate a 3-day content calendar</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // State Management
+    const state = {
+      savedContent: [],
+      currentInsights: null,
+      calendar: null
+    };
+
+    // Load saved content from localStorage
+    function loadSavedContent() {
+      const saved = localStorage.getItem('remotivSavedContent');
+      if (saved) {
+        state.savedContent = JSON.parse(saved);
+        renderSavedContent();
+      }
+    }
+
+    // Save content to localStorage
+    function saveToLocalStorage() {
+      localStorage.setItem('remotivSavedContent', JSON.stringify(state.savedContent));
+    }
+
+    // Tab Switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active from all buttons and contents
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        // Add active to clicked button and corresponding content
+        btn.classList.add('active');
+        const tabName = btn.getAttribute('data-tab');
+        document.getElementById(tabName + 'Tab').classList.add('active');
+      });
+    });
+
+    // Show Toast
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Show Loading State
+    function showLoading(containerId, message = 'Generating content...') {
+      const container = document.getElementById(containerId);
+      container.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <div class="loading-text">${message}</div>
+        </div>
+      `;
+    }
+
+    // Remotiv Data (from website)
+    const remotivData = {
+      stats: {
+        placementSuccessRate: "90%",
+        clientSatisfaction: "5/5",
+        timeToHire: "2 weeks",
+        costSavings: "60-80%",
+        replacementGuarantee: "90 days free"
+      },
+      testimonials: [
+        {
+          company: "Ride the Wave",
+          quote: "Remotiv provided candidates faster and in higher quality than most overseas recruiters we have used. Communication was really strong, which led to a long working relationship.",
+          author: "Daniel Magazu",
+          title: "CEO"
+        }
+      ],
+      differentiators: [
+        "Pre-vetted Pakistani talent from top 1%",
+        "AI-powered matching with human validation",
+        "48-hour shortlist delivery",
+        "60-80% cost savings vs Western rates",
+        "90-day free replacement guarantee",
+        "Dedicated human Payroll Manager"
+      ],
+      services: ["Staff Augmentation", "Recruitment", "Dedicated Teams", "Payroll Services"]
+    };
+
+    // Generate Content
+    async function generateContent() {
+      const topic = document.getElementById('topicInput').value;
+      const platform = document.getElementById('platformSelect').value;
+      const contentType = document.getElementById('contentType').value;
+      const tone = document.getElementById('toneSelect').value;
+      
+      const focusAreas = [];
+      if (document.getElementById('staffAug').checked) focusAreas.push('Staff Augmentation');
+      if (document.getElementById('recruitment').checked) focusAreas.push('Recruitment');
+      if (document.getElementById('dedicatedTeams').checked) focusAreas.push('Dedicated Teams');
+      if (document.getElementById('payroll').checked) focusAreas.push('Payroll Services');
+
+      if (!topic) {
+        showToast('⚠️ Please enter a topic or theme');
+        return;
+      }
+
+      showLoading('generatedTab', `Crafting your ${platform} content...`);
+      
+      let platformSpecificInstructions = '';
+      
+      if (platform === 'linkedin') {
+        platformSpecificInstructions = `
+**LINKEDIN FORMAT:**
+- Professional tone with storytelling
+- Use line breaks for readability
+- Include 5-7 relevant hashtags at the end
+- Emojis are okay but use sparingly
+- Ideal length: 150-300 words for single posts
+- For carousels: 6-10 slides, each slide should be concise (50-80 words max)
+`;
+      } else if (platform === 'twitter') {
+        platformSpecificInstructions = `
+**X (TWITTER) FORMAT:**
+- For single tweet: Max 280 characters, punchy and engaging
+- For thread: Create 5-8 connected tweets, each under 280 chars
+- Use line breaks within tweets for readability
+- Include 2-3 hashtags max (Twitter users prefer fewer hashtags)
+- Start thread with a strong hook tweet
+- End thread with a CTA tweet
+- Use bullet points (•) and numbers for structure
+`;
+      } else if (platform === 'instagram') {
+        platformSpecificInstructions = `
+**INSTAGRAM FORMAT:**
+- Caption length: 125-150 words (Instagram truncates after 3 lines)
+- Start with a strong hook (first 125 characters are crucial)
+- Use line breaks and emojis liberally for visual appeal
+- Include 20-30 relevant hashtags (mix of popular and niche)
+- Add a clear CTA at the end
+- For carousel: Provide caption + text for each of 6-10 slides
+- Conversational and visual-first language
+`;
+      }
+
+      const prompt = `You are a social media expert creating high-quality ${platform.toUpperCase()} content for Remotiv, a Pakistan-based remote talent platform.
+
+**Topic:** ${topic}
+
+**Platform:** ${platform}
+**Content Type:** ${contentType}
+**Tone:** ${tone}
+**Focus Areas:** ${focusAreas.join(', ')}
+
+${platformSpecificInstructions}
+
+**Remotiv Company Data:**
+- Services: Staff Augmentation, Recruitment, Dedicated Teams, Payroll Services
+- Key Stats: 90% placement success rate, 5/5 client satisfaction, 2-week time to hire, 60-80% cost savings
+- Differentiators: Pre-vetted top 1% Pakistani talent, AI-powered matching with human validation, 48-hour shortlist, 90-day free replacement guarantee
+- Client testimonial: "Remotiv provided candidates faster and in higher quality than most overseas recruiters we have used. Communication was really strong." - Daniel Magazu, CEO, Ride the Wave
+
+**Requirements:**
+1. Create ${contentType === 'single' ? `a single ${platform} post` : contentType === 'carousel' ? `a carousel post with 6-10 slides for ${platform}` : `both a single post AND a carousel for ${platform}`}
+2. Use REAL, realistic data and market trends (cite sources where possible)
+3. Stay 100% compliant with ${platform} policies - no misleading claims
+4. Make it relevant to US, Europe, and Middle East markets
+5. Incorporate Remotiv's differentiators naturally
+6. Use engaging hooks and clear CTAs
+7. Follow ${platform}-specific best practices
+
+${contentType === 'carousel' || contentType === 'both' ? `
+For carousel posts:
+${platform === 'instagram' ? '**SLIDE 1:** Eye-catching visual hook + minimal text' : '**SLIDE 1 (Title):** Eye-catching headline'}
+**SLIDES 2-8:** Each slide = one key insight/stat/tip
+**SLIDE 9 (CTA):** Clear call-to-action + how to engage with Remotiv
+` : ''}
+
+Format your response as JSON:
+{
+  "singlePost": "full post text" (if applicable),
+  ${platform === 'twitter' ? '"twitterThread": ["tweet 1", "tweet 2", ...] (if single post is a thread),' : ''}
+  "carouselSlides": ["slide 1 text", "slide 2 text", ...] (if applicable),
+  ${platform === 'instagram' ? '"carouselCaption": "main caption for carousel" (if applicable),' : ''}
+  "metadata": {
+    "estimatedReach": "2000-5000",
+    "bestPostingTime": "Tuesday 9 AM EST",
+    "targetAudience": "Tech hiring managers, CTOs, startup founders"
+  }
+}`;
+
+      try {
+        const response = await fetch('/api/claude', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 4000,
+            messages: [
+              { role: 'user', content: prompt }
+            ]
+          })
+        });
+
+        const data = await response.json();
+        const responseText = data.content.find(item => item.type === 'text')?.text || '';
+        
+        // Extract JSON from response
+        const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) {
+          throw new Error('Failed to parse response');
+        }
+        
+        const result = JSON.parse(jsonMatch[0]);
+        
+        // Render generated content
+        renderGeneratedContent(result, contentType, platform);
+        showToast(`✅ ${platform} content generated successfully!`);
+        
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('generatedTab').innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">❌</div>
+            <h3>Error generating content</h3>
+            <p>${error.message}</p>
+          </div>
+        `;
+        showToast('❌ Failed to generate content');
+      }
+    }
+
+    // Render Generated Content
+    function renderGeneratedContent(result, contentType, platform) {
+      const container = document.getElementById('generatedTab');
+      let html = '';
+
+      // Platform emoji icons
+      const platformIcon = {
+        linkedin: '💼',
+        twitter: '🐦',
+        instagram: '📸'
+      };
+
+      // Helper function to safely escape for onclick
+      function escapeForOnClick(obj) {
+        return JSON.stringify(obj).replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+      }
+
+      if (result.singlePost) {
+        const postId = 'post_' + Date.now();
+        window[postId] = {
+          content: result.singlePost,
+          platform: platform,
+          metadata: result.metadata
+        };
+        
+        html += `
+          <div class="generated-content">
+            <div class="content-header">
+              <span class="content-type-badge">${platformIcon[platform]} ${platform} - Single Post</span>
+              <div class="content-actions">
+                <button class="icon-btn" onclick="copyToClipboard(window['${postId}'].content)">📋 Copy</button>
+                <button class="icon-btn" onclick="saveContent('single', window['${postId}'].content, window['${postId}'].platform, window['${postId}'].metadata)">💾 Save</button>
+              </div>
+            </div>
+            <div class="post-content">${result.singlePost}</div>
+            ${result.metadata ? `
+              <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid var(--border); font-size: 0.85rem; color: var(--text-mid);">
+                <strong>📊 Insights:</strong> Estimated reach: ${result.metadata.estimatedReach} | Best time: ${result.metadata.bestPostingTime} | Target: ${result.metadata.targetAudience}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+
+      // Twitter Thread
+      if (result.twitterThread) {
+        const threadId = 'thread_' + Date.now();
+        window[threadId] = {
+          tweets: result.twitterThread,
+          metadata: result.metadata
+        };
+
+        const threadsHtml = result.twitterThread.map((tweet, index) => `
+          <div class="carousel-slide" style="background: linear-gradient(135deg, #1DA1F2 0%, #14171A 100%);">
+            <div class="slide-number">TWEET ${index + 1}/${result.twitterThread.length}</div>
+            <div class="slide-content">${tweet}</div>
+          </div>
+        `).join('');
+
+        html += `
+          <div class="generated-content">
+            <div class="content-header">
+              <span class="content-type-badge">🐦 Twitter Thread</span>
+              <div class="content-actions">
+                <button class="icon-btn" onclick="copyTwitterThread(window['${threadId}'].tweets)">📋 Copy Thread</button>
+                <button class="icon-btn" onclick="saveContent('thread', window['${threadId}'].tweets, 'twitter', window['${threadId}'].metadata)">💾 Save</button>
+              </div>
+            </div>
+            <div class="carousel-slides">${threadsHtml}</div>
+          </div>
+        `;
+      }
+
+      if (result.carouselSlides) {
+        const carouselId = 'carousel_' + Date.now();
+        window[carouselId] = {
+          slides: result.carouselSlides,
+          caption: result.carouselCaption,
+          platform: platform,
+          metadata: result.metadata
+        };
+
+        const gradient = platform === 'instagram' 
+          ? 'linear-gradient(135deg, #E1306C 0%, #FD1D1D 50%, #F77737 100%)'
+          : platform === 'twitter'
+          ? 'linear-gradient(135deg, #1DA1F2 0%, #14171A 100%)'
+          : 'linear-gradient(135deg, var(--remotiv-green) 0%, var(--purple) 100%)';
+
+        const slidesHtml = result.carouselSlides.map((slide, index) => `
+          <div class="carousel-slide" style="background: ${gradient};">
+            <div class="slide-number">SLIDE ${index + 1}</div>
+            <div class="slide-content">${slide}</div>
+          </div>
+        `).join('');
+
+        html += `
+          <div class="generated-content">
+            <div class="content-header">
+              <span class="content-type-badge">${platformIcon[platform]} ${platform} - Carousel</span>
+              <div class="content-actions">
+                <button class="icon-btn" onclick="copyCarousel(window['${carouselId}'].slides)">📋 Copy All</button>
+                <button class="icon-btn" onclick="saveContent('carousel', window['${carouselId}'].slides, window['${carouselId}'].platform, window['${carouselId}'].metadata)">💾 Save</button>
+              </div>
+            </div>
+            ${result.carouselCaption ? `
+              <div class="post-content" style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid var(--border);">
+                <strong>📝 Caption:</strong><br>${result.carouselCaption}
+              </div>
+            ` : ''}
+            <div class="carousel-slides">${slidesHtml}</div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    // Copy to Clipboard
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+      showToast('📋 Copied to clipboard!');
+    }
+
+    function copyCarousel(slides) {
+      const text = slides.map((slide, i) => `SLIDE ${i + 1}:\n${slide}`).join('\n\n---\n\n');
+      navigator.clipboard.writeText(text);
+      showToast('📋 Carousel copied to clipboard!');
+    }
+
+    function copyTwitterThread(tweets) {
+      const text = tweets.map((tweet, i) => `${i + 1}/${tweets.length}\n${tweet}`).join('\n\n---\n\n');
+      navigator.clipboard.writeText(text);
+      showToast('📋 Twitter thread copied to clipboard!');
+    }
+
+    // Save Content
+    function saveContent(type, content, platform, metadata) {
+      const item = {
+        id: Date.now(),
+        type,
+        content,
+        platform,
+        metadata,
+        date: new Date().toISOString()
+      };
+      state.savedContent.unshift(item);
+      saveToLocalStorage();
+      renderSavedContent();
+      showToast('💾 Content saved!');
+    }
+
+    // Render Saved Content
+    function renderSavedContent() {
+      const container = document.getElementById('savedTab');
+      
+      if (state.savedContent.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">💾</div>
+            <h3>No saved content</h3>
+            <p>Generate and save content to see it here</p>
+          </div>
+        `;
+        return;
+      }
+
+      const platformIcon = {
+        linkedin: '💼',
+        twitter: '🐦',
+        instagram: '📸'
+      };
+
+      const html = state.savedContent.map(item => {
+        const date = new Date(item.date).toLocaleDateString('en-US', { 
+          month: 'short', 
+          day: 'numeric', 
+          year: 'numeric' 
+        });
+
+        return `
+          <div class="saved-item">
+            <div class="saved-header">
+              <div>
+                <span class="content-type-badge">${platformIcon[item.platform] || '📝'} ${item.platform || 'linkedin'} - ${item.type}</span>
+                <span class="saved-date" style="margin-left: 12px;">${date}</span>
+              </div>
+              <button class="delete-btn" onclick="deleteContent(${item.id})">Delete</button>
+            </div>
+            <div class="post-content" style="max-height: 150px; overflow: hidden;">
+              ${Array.isArray(item.content) ? `${item.content.length} ${item.type === 'thread' ? 'tweets' : 'slides'}` : item.content}
+            </div>
+            <div style="margin-top: 12px;">
+              <button class="icon-btn" onclick="copyToClipboard(\`${typeof item.content === 'string' ? item.content.replace(/`/g, '\\`').replace(/\$/g, '\\$') : ''}\`)">📋 Copy</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = html;
+    }
+
+    // Delete Content
+    function deleteContent(id) {
+      state.savedContent = state.savedContent.filter(item => item.id !== id);
+      saveToLocalStorage();
+      renderSavedContent();
+      showToast('🗑️ Content deleted');
+    }
+
+    // Analyze Competitors
+    async function analyzeCompetitors() {
+      showLoading('insightsTab', 'Analyzing 20+ competitor platforms...');
+      document.querySelector('.tab-btn[data-tab="insights"]').click();
+
+      const prompt = `Analyze LinkedIn, X (Twitter), and Instagram content strategies for these remote talent/hiring platforms:
+
+**GLOBAL PLATFORMS:**
+- Lemon.io
+- Toptal  
+- Deel
+- WeFound
+- Y Combinator "Work at a Startup"
+- LinkedIn (official careers content)
+- Turing
+- Arc.dev
+- DistantJob
+- Upwork / Fiverr
+- Gun.io
+- CloudDevs
+- Andela
+
+**PAKISTAN-BASED PLATFORMS:**
+- Stiryum
+- TalentHue
+- HR Ways
+- Code District
+- Arbisoft
+
+Search for their recent social media posts (last 30 days) and provide insights on:
+
+1. **Content Topics**: What themes do they post about most? (hiring trends, remote work, tech talent, case studies, etc.)
+2. **Post Formats by Platform**:
+   - LinkedIn: Text posts, carousels, videos, polls
+   - Twitter/X: Single tweets, threads, polls
+   - Instagram: Feed posts, carousels, Reels
+3. **Engagement Patterns**: What types of content get the most likes/comments/shares?
+4. **Posting Frequency**: How often do they post on each platform?
+5. **Unique Angles**: What makes each platform's content distinctive?
+6. **Pakistan Platforms vs Global**: How do Pakistani platforms differ in their approach?
+7. **Recommendations for Remotiv**: Based on this analysis, what should Remotiv do differently or similarly?
+
+Use REAL, recent data from web search. Format as JSON:
+{
+  "topTopics": ["topic 1", "topic 2", ...],
+  "formatDistribution": {
+    "linkedin": {"text": "40%", "carousel": "30%", "video": "20%", "poll": "10%"},
+    "twitter": {"single": "60%", "thread": "30%", "poll": "10%"},
+    "instagram": {"feed": "50%", "carousel": "35%", "reel": "15%"}
+  },
+  "highEngagementTypes": ["type 1", "type 2", ...],
+  "postingFrequency": {
+    "linkedin": "X posts/week",
+    "twitter": "Y posts/week",
+    "instagram": "Z posts/week"
+  },
+  "competitorHighlights": {
+    "Lemon.io": "unique angle",
+    "Toptal": "unique angle",
+    "Deel": "unique angle",
+    "YCombinator": "unique angle",
+    "Stiryum": "Pakistan approach",
+    "TalentHue": "Pakistan approach"
+  },
+  "pakistanVsGlobal": "key differences in content strategy",
+  "recommendationsForRemotiv": ["rec 1", "rec 2", ...]
+}`;
+
+      try {
+        const response = await fetch('/api/claude', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 4000,
+            messages: [{ role: 'user', content: prompt }],
+            tools: [{
+              type: "web_search_20250305",
+              name: "web_search"
+            }]
+          })
+        });
+
+        const data = await response.json();
+        const textContent = data.content.filter(item => item.type === 'text').map(item => item.text).join('\n');
+        
+        const jsonMatch = textContent.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error('Failed to parse response');
+        
+        const insights = JSON.parse(jsonMatch[0]);
+        state.currentInsights = insights;
+        renderInsights(insights, 'competitor');
+        showToast('✅ Competitor analysis complete!');
+        
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('insightsTab').innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">❌</div>
+            <h3>Error analyzing competitors</h3>
+            <p>${error.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    // Get Market Trends
+    async function getMarketTrends() {
+      const regions = [];
+      if (document.getElementById('usMarket').checked) regions.push('United States');
+      if (document.getElementById('europeMarket').checked) regions.push('Europe');
+      if (document.getElementById('meMarket').checked) regions.push('Middle East');
+
+      if (regions.length === 0) {
+        showToast('⚠️ Please select at least one market region');
+        return;
+      }
+
+      showLoading('insightsTab', 'Researching market trends from premium data sources...');
+      document.querySelector('.tab-btn[data-tab="insights"]').click();
+
+      const prompt = `Research current hiring and remote work trends in: ${regions.join(', ')}
+
+**PRIORITY DATA SOURCES TO SEARCH:**
+1. **Levels.fyi** - for salary benchmarks and compensation trends
+2. **GitHub Octoverse Report** - for tech stack trends and popular languages/frameworks
+3. **Crunchbase** - for funded companies and hiring activity
+4. **Builtin.com** - for tech hiring trends and job market insights
+5. **Y Combinator "Work at a Startup"** (workatastartup.com) - for startup hiring trends
+6. **TechCrunch, VentureBeat** - for industry news and hiring announcements
+7. **LinkedIn Talent Blog** - for remote work and hiring insights
+
+Focus on:
+1. **Tech Hiring Trends**: Current demand, hot roles, salary trends (use Levels.fyi data)
+2. **Tech Stack Trends**: Most in-demand programming languages, frameworks (use GitHub Octoverse)
+3. **Remote Work Adoption**: Statistics on remote/hybrid policies
+4. **Economic Indicators**: Layoffs, hiring freezes, or hiring surges
+5. **Top Companies Hiring**: Startups (from YC, Crunchbase) and established companies actively recruiting
+6. **Funded Startups**: Recent funding rounds and hiring plans (Crunchbase)
+7. **Outsourcing Trends**: Growth in offshore/nearshore hiring to Pakistan and similar markets
+8. **Pakistan Talent Market**: Specific insights on Pakistani tech talent demand and rates
+
+Use REAL, recent data from 2024-2025. CITE SOURCES. Format as JSON:
+{
+  "hiringTrends": {
+    "hotRoles": ["role 1 (avg salary from Levels.fyi)", "role 2", ...],
+    "salaryTrends": "description with specific numbers",
+    "demandLevel": "high/medium/low with supporting data"
+  },
+  "techStackTrends": {
+    "topLanguages": ["language 1", "language 2", ...],
+    "growingFrameworks": ["framework 1", "framework 2", ...],
+    "source": "GitHub Octoverse 2024"
+  },
+  "remoteWorkStats": {
+    "adoptionRate": "X% (source)",
+    "hybridVsFullRemote": "description with stats"
+  },
+  "economicIndicators": {
+    "layoffTrends": "description with specific companies/numbers",
+    "hiringOutlook": "description with data"
+  },
+  "topHiringCompanies": {
+    "startups": ["startup 1 (funding: $X)", "startup 2", ...],
+    "established": ["company 1", "company 2", ...]
+  },
+  "fundedStartups": {
+    "recentFunding": ["Company A raised $XM (Crunchbase)", ...],
+    "hiringPlans": "summary of hiring announcements"
+  },
+  "outsourcingGrowth": "description with stats on Pakistan/offshore hiring",
+  "pakistanTalentInsights": {
+    "demand": "current demand level",
+    "averageRates": "salary ranges from Levels.fyi or similar",
+    "competitiveAdvantage": "why companies choose Pakistan talent"
+  },
+  "sources": ["Levels.fyi - Q4 2024 Report", "GitHub Octoverse 2024", "Crunchbase - Jan 2025", ...]
+}`;
+
+      try {
+        const response = await fetch('/api/claude', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 4000,
+            messages: [{ role: 'user', content: prompt }],
+            tools: [{
+              type: "web_search_20250305",
+              name: "web_search"
+            }]
+          })
+        });
+
+        const data = await response.json();
+        const textContent = data.content.filter(item => item.type === 'text').map(item => item.text).join('\n');
+        
+        const jsonMatch = textContent.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error('Failed to parse response');
+        
+        const trends = JSON.parse(jsonMatch[0]);
+        renderInsights(trends, 'trends');
+        showToast('✅ Market trends loaded!');
+        
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('insightsTab').innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">❌</div>
+            <h3>Error fetching trends</h3>
+            <p>${error.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    // Render Insights
+    function renderInsights(data, type) {
+      const container = document.getElementById('insightsTab');
+      
+      if (type === 'competitor') {
+        const formatLinkedIn = data.formatDistribution?.linkedin || {};
+        const formatTwitter = data.formatDistribution?.twitter || {};
+        const formatInstagram = data.formatDistribution?.instagram || {};
+
+        container.innerHTML = `
+          <div class="insights-grid">
+            <div class="insight-card">
+              <div class="insight-title">🎯 Top Topics</div>
+              <ul class="insight-list">
+                ${data.topTopics.map(topic => `<li>${topic}</li>`).join('')}
+              </ul>
+            </div>
+            
+            <div class="insight-card">
+              <div class="insight-title">💼 LinkedIn Format Distribution</div>
+              <div class="insight-content">
+                ${Object.entries(formatLinkedIn).map(([format, percent]) => 
+                  `<div style="margin: 8px 0;"><strong>${format}:</strong> ${percent}</div>`
+                ).join('')}
+              </div>
+            </div>
+
+            <div class="insight-card">
+              <div class="insight-title">🐦 Twitter/X Format Distribution</div>
+              <div class="insight-content">
+                ${Object.entries(formatTwitter).map(([format, percent]) => 
+                  `<div style="margin: 8px 0;"><strong>${format}:</strong> ${percent}</div>`
+                ).join('')}
+              </div>
+            </div>
+
+            <div class="insight-card">
+              <div class="insight-title">📸 Instagram Format Distribution</div>
+              <div class="insight-content">
+                ${Object.entries(formatInstagram).map(([format, percent]) => 
+                  `<div style="margin: 8px 0;"><strong>${format}:</strong> ${percent}</div>`
+                ).join('')}
+              </div>
+            </div>
+            
+            <div class="insight-card">
+              <div class="insight-title">🔥 High Engagement Types</div>
+              <ul class="insight-list">
+                ${data.highEngagementTypes.map(type => `<li>${type}</li>`).join('')}
+              </ul>
+            </div>
+            
+            <div class="insight-card">
+              <div class="insight-title">📅 Posting Frequency</div>
+              <div class="insight-content">
+                <div><strong>LinkedIn:</strong> ${data.postingFrequency?.linkedin || 'N/A'}</div>
+                <div><strong>Twitter:</strong> ${data.postingFrequency?.twitter || 'N/A'}</div>
+                <div><strong>Instagram:</strong> ${data.postingFrequency?.instagram || 'N/A'}</div>
+              </div>
+            </div>
+            
+            <div class="insight-card" style="grid-column: 1 / -1;">
+              <div class="insight-title">💡 Competitor Highlights</div>
+              <div class="insight-content">
+                ${Object.entries(data.competitorHighlights).map(([company, angle]) => 
+                  `<div style="margin: 12px 0;"><strong>${company}:</strong> ${angle}</div>`
+                ).join('')}
+              </div>
+            </div>
+
+            ${data.pakistanVsGlobal ? `
+              <div class="insight-card" style="grid-column: 1 / -1; border-left-color: var(--purple);">
+                <div class="insight-title">🇵🇰 Pakistan vs Global Platforms</div>
+                <div class="insight-content">${data.pakistanVsGlobal}</div>
+              </div>
+            ` : ''}
+            
+            <div class="insight-card" style="grid-column: 1 / -1; border-left-color: var(--remotiv-green);">
+              <div class="insight-title">✅ Recommendations for Remotiv</div>
+              <ul class="insight-list">
+                ${data.recommendationsForRemotiv.map(rec => `<li>${rec}</li>`).join('')}
+              </ul>
+            </div>
+          </div>
+        `;
+      } else if (type === 'trends') {
+        container.innerHTML = `
+          <div class="insights-grid">
+            <div class="insight-card">
+              <div class="insight-title">🚀 Hot Roles</div>
+              <ul class="insight-list">
+                ${data.hiringTrends.hotRoles.map(role => `<li>${role}</li>`).join('')}
+              </ul>
+            </div>
+            
+            <div class="insight-card">
+              <div class="insight-title">💰 Salary Trends</div>
+              <div class="insight-content">${data.hiringTrends.salaryTrends}</div>
+            </div>
+
+            ${data.techStackTrends ? `
+              <div class="insight-card">
+                <div class="insight-title">💻 Top Programming Languages</div>
+                <ul class="insight-list">
+                  ${data.techStackTrends.topLanguages.map(lang => `<li>${lang}</li>`).join('')}
+                </ul>
+                <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-light);">
+                  Source: ${data.techStackTrends.source || 'GitHub Octoverse'}
+                </div>
+              </div>
+
+              <div class="insight-card">
+                <div class="insight-title">📈 Growing Frameworks</div>
+                <ul class="insight-list">
+                  ${data.techStackTrends.growingFrameworks.map(fw => `<li>${fw}</li>`).join('')}
+                </ul>
+              </div>
+            ` : ''}
+            
+            <div class="insight-card">
+              <div class="insight-title">🏠 Remote Work Stats</div>
+              <div class="insight-content">
+                <div><strong>Adoption Rate:</strong> ${data.remoteWorkStats.adoptionRate}</div>
+                <div style="margin-top: 8px;">${data.remoteWorkStats.hybridVsFullRemote}</div>
+              </div>
+            </div>
+            
+            <div class="insight-card">
+              <div class="insight-title">📈 Economic Outlook</div>
+              <div class="insight-content">
+                <div><strong>Layoffs:</strong> ${data.economicIndicators.layoffTrends}</div>
+                <div style="margin-top: 8px;"><strong>Hiring:</strong> ${data.economicIndicators.hiringOutlook}</div>
+              </div>
+            </div>
+            
+            ${data.topHiringCompanies?.startups ? `
+              <div class="insight-card" style="grid-column: 1 / -1;">
+                <div class="insight-title">🏢 Top Hiring Companies</div>
+                <div class="insight-content">
+                  <div style="margin-bottom: 12px;"><strong>Startups:</strong> ${data.topHiringCompanies.startups.join(' • ')}</div>
+                  <div><strong>Established:</strong> ${data.topHiringCompanies.established.join(' • ')}</div>
+                </div>
+              </div>
+            ` : `
+              <div class="insight-card" style="grid-column: 1 / -1;">
+                <div class="insight-title">🏢 Top Hiring Companies</div>
+                <div class="insight-content">${Array.isArray(data.topHiringCompanies) ? data.topHiringCompanies.join(' • ') : 'N/A'}</div>
+              </div>
+            `}
+
+            ${data.fundedStartups ? `
+              <div class="insight-card" style="grid-column: 1 / -1; border-left-color: var(--purple);">
+                <div class="insight-title">💰 Recently Funded Startups</div>
+                <div class="insight-content">
+                  <ul class="insight-list">
+                    ${data.fundedStartups.recentFunding.map(item => `<li>${item}</li>`).join('')}
+                  </ul>
+                  <div style="margin-top: 12px;"><strong>Hiring Plans:</strong> ${data.fundedStartups.hiringPlans}</div>
+                </div>
+              </div>
+            ` : ''}
+            
+            <div class="insight-card" style="grid-column: 1 / -1;">
+              <div class="insight-title">🌏 Outsourcing Growth</div>
+              <div class="insight-content">${data.outsourcingGrowth}</div>
+            </div>
+            
+            <div class="insight-card" style="grid-column: 1 / -1; border-left-color: var(--remotiv-green);">
+              <div class="insight-title">🇵🇰 Pakistan Talent Insights</div>
+              <div class="insight-content">
+                ${typeof data.pakistanTalentInsights === 'string' 
+                  ? data.pakistanTalentInsights 
+                  : `
+                    <div><strong>Demand:</strong> ${data.pakistanTalentInsights.demand}</div>
+                    <div style="margin-top: 8px;"><strong>Average Rates:</strong> ${data.pakistanTalentInsights.averageRates}</div>
+                    <div style="margin-top: 8px;"><strong>Competitive Advantage:</strong> ${data.pakistanTalentInsights.competitiveAdvantage}</div>
+                  `
+                }
+              </div>
+            </div>
+            
+            ${data.sources ? `
+              <div class="insight-card" style="grid-column: 1 / -1; background: var(--remotiv-bg);">
+                <div class="insight-title">📚 Data Sources</div>
+                <div class="insight-content" style="font-size: 0.8rem;">
+                  ${data.sources.map(source => `<div style="margin: 4px 0;">• ${source}</div>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+    }
+
+    // Generate Calendar
+    async function generateCalendar() {
+      showLoading('calendarContent', 'Creating your 3-day content calendar...');
+
+      const prompt = `Create a 3-day LinkedIn content calendar for Remotiv (Pakistan-based remote talent platform).
+
+For each day, suggest:
+1. **Posting Time**: Best time to post (consider US/Europe timezones)
+2. **Content Type**: Single post, carousel, or poll
+3. **Topic**: What to post about
+4. **Hook**: Opening line to grab attention
+5. **Brief**: 2-3 sentence outline of the post
+
+Mix different content types and topics. Use these themes:
+- Day 1: Thought leadership (remote work trends)
+- Day 2: Service highlight (one of: Staff Augmentation, Recruitment, Dedicated Teams, Payroll)
+- Day 3: Client success story or stat highlight
+
+Format as JSON:
+{
+  "calendar": [
+    {
+      "day": 1,
+      "date": "relative (e.g., Today, Tomorrow, Day After)",
+      "time": "9:00 AM EST",
+      "contentType": "Single Post",
+      "topic": "topic",
+      "hook": "attention-grabbing first line",
+      "brief": "outline of post content"
+    },
+    ...
+  ]
+}`;
+
+      try {
+        const response = await fetch('/api/claude', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 2000,
+            messages: [{ role: 'user', content: prompt }]
+          })
+        });
+
+        const data = await response.json();
+        const textContent = data.content.find(item => item.type === 'text')?.text || '';
+        
+        const jsonMatch = textContent.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error('Failed to parse response');
+        
+        const result = JSON.parse(jsonMatch[0]);
+        state.calendar = result.calendar;
+        renderCalendar(result.calendar);
+        showToast('✅ Calendar generated!');
+        
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('calendarContent').innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">❌</div>
+            <h3>Error generating calendar</h3>
+            <p>${error.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    // Render Calendar
+    function renderCalendar(calendar) {
+      const container = document.getElementById('calendarContent');
+      
+      const html = calendar.map(day => `
+        <div class="calendar-day">
+          <div class="day-header">📅 ${day.date} - ${day.time}</div>
+          <div class="day-posts">
+            <div class="day-post-item">
+              <div class="post-time">
+                <span style="background: var(--remotiv-green); color: var(--remotiv-dark); padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.75rem; margin-right: 8px;">${day.contentType}</span>
+                ${day.topic}
+              </div>
+              <div class="post-preview" style="margin-top: 8px;">
+                <strong>Hook:</strong> ${day.hook}
+              </div>
+              <div class="post-preview" style="margin-top: 6px; font-size: 0.85rem;">
+                ${day.brief}
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      container.innerHTML = html;
+    }
+
+    // Event Listeners
+    document.getElementById('generateBtn').addEventListener('click', generateContent);
+    document.getElementById('analyzeBtn').addEventListener('click', analyzeCompetitors);
+    document.getElementById('trendsBtn').addEventListener('click', getMarketTrends);
+    document.getElementById('generateCalendarBtn').addEventListener('click', generateCalendar);
+
+    // Initialize
+    loadSavedContent();
+  </script>
+</body>
+</html>
