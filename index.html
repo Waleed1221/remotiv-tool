@@ -917,7 +917,7 @@ Format your response as JSON:
         });
 
         const data = await response.json();
-        const responseText = data.content.find(item => item.type === 'text')?.text || '';
+        const responseText = (data.content || []).find(item => item.type === 'text')?.text || '';
         
         // Extract JSON from response
         const jsonMatch = responseText.match(/\{[\s\S]*\}/);
@@ -1239,7 +1239,7 @@ Use REAL, recent data from web search. Format as JSON:
         });
 
         const data = await response.json();
-        const textContent = data.content.filter(item => item.type === 'text').map(item => item.text).join('\n');
+        const textContent = (data.content || []).filter(item => item.type === 'text').map(item => item.text).join('\n');
         
         const jsonMatch = textContent.match(/\{[\s\S]*\}/);
         if (!jsonMatch) throw new Error('Failed to parse response');
@@ -1352,7 +1352,7 @@ Use REAL, recent data from 2024-2025. CITE SOURCES. Format as JSON:
         });
 
         const data = await response.json();
-        const textContent = data.content.filter(item => item.type === 'text').map(item => item.text).join('\n');
+        const textContent = (data.content || []).filter(item => item.type === 'text').map(item => item.text).join('\n');
         
         const jsonMatch = textContent.match(/\{[\s\S]*\}/);
         if (!jsonMatch) throw new Error('Failed to parse response');
@@ -1615,7 +1615,7 @@ Format as JSON:
         });
 
         const data = await response.json();
-        const textContent = data.content.find(item => item.type === 'text')?.text || '';
+        const textContent = (data.content || []).find(item => item.type === 'text')?.text || '';
         
         const jsonMatch = textContent.match(/\{[\s\S]*\}/);
         if (!jsonMatch) throw new Error('Failed to parse response');
